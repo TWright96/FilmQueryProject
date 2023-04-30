@@ -16,7 +16,8 @@ public class Film {
 	private double replacementCost;
 	private String rating;
 	private String special_features;
-	private List<Actor> actor;
+	private List<Actor> cast;
+	
 	public Film(int id, String title, String desc, int realeaseYear, int languageId, int rentalDuration,
 			double rentalrate, double length, double replacementCost, String rating, String special_features) {
 		super();
@@ -105,25 +106,25 @@ public class Film {
 		this.special_features = special_features;
 	}
 	public List<Actor> getActor() {
-		return actor;
+		return cast;
 	}
 	public void setActor(List<Actor> actor) {
-		this.actor = actor;
+		this.cast = actor;
 	}
 	public List<Actor> getActors() {
-		List<Actor> copy = new ArrayList<>(actor);
+		List<Actor> copy = new ArrayList<>(cast);
 		return copy;
 	}
 	@Override
 	public String toString() {
-		return "Film [id=" + id + ", title=" + title + ", desc=" + desc + ", realeaseYear=" + realeaseYear
+		return "\nFilm [id=" + id + ", title=" + title + ", desc=" + desc + ", realeaseYear=" + realeaseYear
 				+ ", languageId=" + languageId + ", rentalDuration=" + rentalDuration + ", rentalrate=" + rentalrate
 				+ ", length=" + length + ", replacementCost=" + replacementCost + ", rating=" + rating
-				+ ", special_features=" + special_features + ", actor=" + actor + "]\n";
+				+ ", special_features=" + special_features + ", actor=" + cast + "]";
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(actor, desc, id, languageId, length, rating, realeaseYear, rentalDuration, rentalrate,
+		return Objects.hash(cast, desc, id, languageId, length, rating, realeaseYear, rentalDuration, rentalrate,
 				replacementCost, special_features, title);
 	}
 	@Override
@@ -135,7 +136,7 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
-		return Objects.equals(actor, other.actor) && Objects.equals(desc, other.desc) && id == other.id
+		return Objects.equals(cast, other.cast) && Objects.equals(desc, other.desc) && id == other.id
 				&& languageId == other.languageId
 				&& Double.doubleToLongBits(length) == Double.doubleToLongBits(other.length)
 				&& Objects.equals(rating, other.rating) && realeaseYear == other.realeaseYear

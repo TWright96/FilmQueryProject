@@ -15,36 +15,32 @@ public class FilmQueryApp {
 
 	public static void main(String[] args) {
 		FilmQueryApp app = new FilmQueryApp();
-		app.test();
+		//app.test();
 		app.launch();
 	}
 
-	private void test() {
-
-		List<Film> list = db.findFilmsBySearch("tiara");
-		if (list != null) {
-			System.out.println(list);
-		} else {
-			System.out.println("No such films found.");
-		}
-
-		Film film = db.findFilmById(2);
-		if (film != null) {
-			System.out.println(film);
-		} else {
-			System.out.println("No such film found.");
-		}
-
-		Actor actor = db.findActorById(33);
-		if (actor != null) {
-			System.out.println(actor);
-		} else {
-			System.out.println("No such actor found.");
-		}
-	}
+//	private void test() {
+//		List<Film> list = db.findFilmsBySearch("tiara");
+//		if (list.size() > 0) {
+//			System.out.println(list);
+//		} else {
+//			System.out.println("No such films found.");
+//		}
+//		Film film = db.findFilmById(2);
+//		if (film != null) {
+//			System.out.println(film);
+//		} else {
+//			System.out.println("No such film found.");
+//		}
+//		Actor actor = db.findActorById(33);
+//		if (actor != null) {
+//			System.out.println(actor);
+//		} else {
+//			System.out.println("No such actor found.");
+//		}
+//	}
 
 	private void launch() {
-		Scanner input = new Scanner(System.in);
 		int select;
 		do {
 			menu();
@@ -59,26 +55,14 @@ public class FilmQueryApp {
 				System.out.println("Goodbye.");
 				break;
 			}
-			startUserInterface(input); // ??
-			System.out.println("Return to menu?");
-			String option;
-			option = input.next();
-			if (option.equals("yes")) {
-				continue;
-			} else {
-				input.close();
-				System.out.println("Goodbye.");
-				break;
-			}
 		} while (select != 3);
 	}
 
 	public void menu() {
-		System.out.println("-------------------Menu------------------");
+		System.out.println("-------------------Menu-------------------");
 		System.out.println("1.Look up a film by its ID");
 		System.out.println("2.Look up a film by a search keyword");
 		System.out.println("3.Exit the application");
-
 	}
 
 	public void lookUpFilmById() {
@@ -88,6 +72,12 @@ public class FilmQueryApp {
 		Film film = db.findFilmById(filmId);
 		if (film != null) {
 			System.out.println(film);
+			language(film.getLanguageId());
+			List<Actor> cast = db.findActorsByFilmId(filmId);
+			System.out.println("CAST: ");
+			for(Actor actor: cast) {
+				System.out.println(actor.getFirstName() + " " + actor.getLastName());
+			}
 		} else {
 			System.out.println("No such film found.");
 		}
@@ -97,15 +87,42 @@ public class FilmQueryApp {
 		System.out.println("Please enter a search term: ");
 		String search;
 		search = scan.next();
-		List<Film> list = db.findFilmsBySearch(search);
-		if (list != null) {
-			System.out.println(list);
+		List<Film> films = db.findFilmsBySearch(search);
+		if (films.size() > 0){	
+		for(Film film: films) {
+			System.out.println(film);
+			language(film.getLanguageId());
+			List<Actor> cast = db.findActorsByFilmId(film.getId());
+			System.out.println("CAST: ");
+			for(Actor actor: cast) {
+				System.out.println(actor.getFirstName() + " " + actor.getLastName());
+			}
+		}
 		} else {
 			System.out.println("No such films found.");
 		}
 	}
-
-	private void startUserInterface(Scanner input) {
-
+	
+	public void language(int lang) {
+		if (lang == 1) {
+			System.out.println("Language: English");		
+		}
+		if (lang == 2) {
+			System.out.println("Language: Italian");		
+		}
+		if(lang == 3) {
+			System.out.println("Language: Japanese");	
+		}
+		if(lang == 4) {
+			System.out.println("Language: Mandarin");
+		}
+		if(lang == 5) {
+			System.out.println("Language: French");
+		}
+		if(lang == 6) {
+			System.out.println("Language: German");
+		}
+		
 	}
+	
 }

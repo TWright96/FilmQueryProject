@@ -93,27 +93,17 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Actor actor = null;
 		try {
 			Connection conn = DriverManager.getConnection(URL, USER, PWD);
-			// formulate a query
 			String sql = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
-			// prepare the statement for the db
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, actorId);
-			// run the statement
 			ResultSet actorResult = stmt.executeQuery();
-			// iterate results
 			if (actorResult.next()) {
 				int id = actorResult.getInt("id");
 				String fn = actorResult.getString("first_name");
 				String ln = actorResult.getString("last_name");
 				actor = new Actor(id, fn, ln);
 				actor.setFilms(findFilmsByActorId(actorId));
-//			actor = new Actor(); // Create the object
-//			// Here is our mapping of query columns to our object fields:
-//			actor.setId(actorResult.getInt(1));
-//			actor.setFirstName(actorResult.getString(2));
-//			actor.setLastName(actorResult.getString(3));
 			}
-			// ...
 			stmt.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -159,12 +149,22 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) {
 		List<Actor> actors = new ArrayList<>();
-//		try {
-//			Connection conn = DriverManager.getConnection(URL, USER, PWD);
-//			String sql = "film.* FROM film JOIN film_actor ON film.id = film_actor.film_id WHERE film_actor.actor_id = ?";
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			Connection conn = DriverManager.getConnection(URL, USER, PWD);
+			String sql = "SELECT actor.* FROM actor JOIN film_actor ON film_actor.actor_id = actor.id WHERE film_actor.film_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, filmId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String fn = rs.getString("first_name");
+				String ln = rs.getString("last_name");
+				Actor actor = new Actor(id, fn, ln);
+				actors.add(actor);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return actors;
 	}	
 	@Override
