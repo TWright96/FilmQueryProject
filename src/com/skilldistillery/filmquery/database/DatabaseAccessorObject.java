@@ -32,10 +32,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			Connection conn = DriverManager.getConnection(URL, USER, PWD);
 			String sql = "SELECT * FROM film WHERE title LIKE ? OR description LIKE ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, "%"+ name + "%");
+			stmt.setString(1, "%" + name + "%");
 			stmt.setString(2, "%" + name + "%");
 			ResultSet filmResult = stmt.executeQuery();
-			while(filmResult.next()) {
+			while (filmResult.next()) {
 				int id = filmResult.getInt("id");
 				String title = filmResult.getString("title");
 				String desc = filmResult.getString("description");
@@ -46,8 +46,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				double length = filmResult.getDouble("length");
 				double replacementCost = filmResult.getDouble("replacement_cost");
 				String rating = filmResult.getString("rating");
-				String specialFeatures = filmResult.getString("special_features");	
-				film = new Film(id, title, desc, releaseYear, languageId, rentalDuration, rentalRate, length, replacementCost, rating, specialFeatures);
+				String specialFeatures = filmResult.getString("special_features");
+				film = new Film(id, title, desc, releaseYear, languageId, rentalDuration, rentalRate, length,
+						replacementCost, rating, specialFeatures);
 				films.add(film);
 			}
 			stmt.close();
@@ -57,6 +58,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return films;
 	}
+
 	@Override
 	public Film findFilmById(int filmId) {
 		Film film = null;
@@ -78,7 +80,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				double replacementCost = filmResult.getDouble("replacement_cost");
 				String rating = filmResult.getString("rating");
 				String specialFeatures = filmResult.getString("special_features");
-				film = new Film(id, title, desc, releaseYear, languageId, rentalDuration, rentalRate, length, replacementCost, rating, specialFeatures);
+				film = new Film(id, title, desc, releaseYear, languageId, rentalDuration, rentalRate, length,
+						replacementCost, rating, specialFeatures);
 			}
 			stmt.close();
 			conn.close();
@@ -134,7 +137,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				double repCost = rs.getDouble(9);
 				String rating = rs.getString(10);
 				String features = rs.getString(11);
-				Film film = new Film(filmId, title, desc, releaseYear, langId, rentDur, rate, length, repCost, rating, features);
+				Film film = new Film(filmId, title, desc, releaseYear, langId, rentDur, rate, length, repCost, rating,
+						features);
 				films.add(film);
 			}
 			rs.close();
@@ -166,10 +170,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			e.printStackTrace();
 		}
 		return actors;
-	}	
+	}
+
 	@Override
 	public Film findFilmBySearch(String name) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
